@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Detection Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚗 Vehicle Detection Dashboard</h1>
+            <p>Real-time Vehicle Monitoring System<span class="status-indicator connected" id="connection-status"></span></p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Detection Status</h3>
+                <div class="stat-value" id="detection-status">●</div>
+                <div class="stat-label" id="status-text">Running</div>
+            </div>
+            <div class="stat-card">
+                <h3>Active Objects</h3>
+                <div class="stat-value" id="active-objects">0</div>
+                <div class="stat-label">Currently tracking</div>
+            </div>
+            <div class="stat-card">
+                <h3>Last Update</h3>
+                <div class="stat-value" id="last-update">--:--</div>
+                <div class="stat-label">Latest data received</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-success" id="start-btn" onclick="startDetection()">🚀 Start Detection</button>
+            <button class="btn btn-danger" id="stop-btn" onclick="stopDetection()">⏹️ Stop Detection</button>
+            <button class="btn btn-warning" id="reset-btn" onclick="resetCount()">🔄 Reset Counter</button>
+            <button class="btn btn-primary" id="refresh-btn" onclick="refreshData()">🔁 Refresh Data</button>
+        </div>
+
+        <div class="main-content">
+            <div class="chart-container">
+                <div class="chart-title">📊 Detection Analytics</div>
+                <div class="chart-controls">
+                    <button class="chart-control-btn active" data-period="day" onclick="changePeriod('day')">Daily</button>
+                    <button class="chart-control-btn" data-period="week" onclick="changePeriod('week')">Weekly</button>
+                    <button class="chart-control-btn" data-period="month" onclick="changePeriod('month')">Monthly</button>
+                </div>
+                <canvas id="analytics-chart"></canvas>
+            </div>
+
+            <div class="objects-section">
+                <div class="objects-header">
+                    <h3>🔖 Detected Objects</h3>
+                    <span class="object-count-badge" id="object-count-badge">0 objects</span>
+                </div>
+                
+                <div id="objects-table-container">
+                    <table class="objects-table" id="objects-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Type</th>
+                                <th>Score</th>
+                                <th>Time</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="objects-table-body">
+                            <!-- Objects will be populated here -->
+                        </tbody>
+                    </table>
+                    
+                    <div class="no-objects" id="no-objects" style="display: none;">
+                        <p>🔍 No objects detected yet</p>
+                        <p>Start detection to see vehicles appear here</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+</body>
+</html>
